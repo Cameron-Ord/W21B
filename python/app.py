@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 @app.post('/api/input_philosopher')
 #function gets called on api request
-
 def input_philosopher():
    try:
       #calls the function in api_helper to loop through the informatin sent
@@ -25,6 +24,7 @@ def input_philosopher():
       print('Invalid entry, try again')
    except ValueError:
       print('Value outside range, try again')
+      
 @app.post('/api/input_quote')
 def input_quote():
    try:
@@ -41,7 +41,7 @@ def input_quote():
       print('Invalid entry, try again')
    except ValueError:
       print('Value outside range, try again')
-      
+
 #runs function on get request
 @app.get('/api/return_all')
 def return_all():

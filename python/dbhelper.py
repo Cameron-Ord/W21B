@@ -1,5 +1,6 @@
 import mariadb
 import dbcreds
+#makes returned data look nicer
 
 def convert_data(cursor, results):
     column_names = [i[0] for i in cursor.description]

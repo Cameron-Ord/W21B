@@ -1,6 +1,6 @@
 #importing
 import json
-from flask import Flask,request
+from flask import Flask,request, make_response, jsonify
 import dbhelper
 import api_helper
 app = Flask(__name__)
@@ -13,18 +13,24 @@ def input_philosopher():
    try:
       #calls the function in api_helper to loop through the informatin sent
       error=api_helper.check_endpoint_info(request.json, ['name', 'bio','dob', 'dod','image_url']) 
+
       if(error !=None):
          return "something went wrong"
       #calls the proceedure to insert sent information into the DB
       results = dbhelper.run_proceedure('CALL insert_philosopher(?,?,?,?,?)', [request.json.get('name'), request.json.get('bio'), request.json.get('dob'), request.json.get('dod'), request.json.get('image_url'),])
-      #returns results from db run_proceedure
-      return json.dumps(results, default=str)
+   
+      if(type(results) == list):
+         #returns results from db run_proceedure
+         return make_response(jsonify(results), 200)
+      else:
+         return make_response(jsonify(results), 400)
+      
    #error catching
    except TypeError:
       print('Invalid entry, try again')
    except ValueError:
       print('Value outside range, try again')
-      
+
 @app.post('/api/input_quote')
 def input_quote():
    try:
@@ -35,7 +41,11 @@ def input_quote():
       #calls the proceedure to insert sent information into the DB
       results = dbhelper.run_proceedure('CALL insert_quote(?,?)', [request.json.get('philosopher_id'), request.json.get('content')])
       #returns results from db run_proceedure
-      return json.dumps(results, default=str)
+      if(type(results) == list):
+         #returns results from db run_proceedure
+         return make_response(jsonify(results), 200)
+      else:
+         return make_response(jsonify(results), 400)
    #error catching
    except TypeError:
       print('Invalid entry, try again')
@@ -50,9 +60,9 @@ def return_all():
       results = dbhelper.run_proceedure('CALL return_all()', [])
       #if a list is returened, returns the results
       if(type(results) == list):
-         return json.dumps(results, default=str)
+         return make_response(jsonify(results), 200)
       else:
-         return "something went wrong"
+         return make_response(jsonify(results), 400)
    #error catching
    except TypeError:
       print('Invalid entry, try again')
@@ -68,9 +78,9 @@ def get_philo():
       results = dbhelper.run_proceedure('CALL return_spec_p(?)', [philo_id])
       #if a list is returened, returns the results
       if(type(results) == list):
-         return json.dumps(results, default=str)
+         return make_response(jsonify(results), 200)
       else:
-         return "something has gone wrong."
+         return make_response(jsonify(results), 400)
    #error catching
    except TypeError:
       print('Invalid entry, try again')

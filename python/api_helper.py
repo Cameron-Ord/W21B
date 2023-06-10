@@ -6,4 +6,4 @@ def check_endpoint_info(sent_data, expected_data):
     except TypeError:
         print('Invalid entry. (how could this happen?)')
     except:
-        print('omething went wrong with endpoint info check.')
+        print('Something went wrong with endpoint info check.')

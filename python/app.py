@@ -34,7 +34,7 @@ def input_philosopher():
 @app.post('/api/input_quote')
 def input_quote():
    try:
-      #calls the function in api_helper to loop through the informatin sent
+      #calls the function in api_helper to loop through the information sent
       error=api_helper.check_endpoint_info(request.json, ['philosopher_id', 'content']) 
       if(error !=None):
          return "something went wrong"
@@ -42,7 +42,6 @@ def input_quote():
       results = dbhelper.run_proceedure('CALL insert_quote(?,?)', [request.json.get('philosopher_id'), request.json.get('content')])
       #returns results from db run_proceedure
       if(type(results) == list):
-         #returns results from db run_proceedure
          return make_response(jsonify(results), 200)
       else:
          return make_response(jsonify(results), 400)
@@ -58,7 +57,7 @@ def return_all():
    try:
       #calling run proceedure to communicate with the DB, takes no arguments
       results = dbhelper.run_proceedure('CALL return_all()', [])
-      #if a list is returened, returns the results
+      #if a list is returned, returns the results
       if(type(results) == list):
          return make_response(jsonify(results), 200)
       else:
@@ -76,7 +75,7 @@ def get_philo():
       #calling run proceedure to communicate with the DB, takes 1 argument
       philo_id = request.args.get('philo_id')
       results = dbhelper.run_proceedure('CALL return_spec_p(?)', [philo_id])
-      #if a list is returened, returns the results
+      #if a list is returned, returns the results
       if(type(results) == list):
          return make_response(jsonify(results), 200)
       else:

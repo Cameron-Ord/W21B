@@ -11,7 +11,7 @@ app = Flask(__name__)
 #function gets called on api request
 def input_philosopher():
    try:
-      #calls the function in api_helper to loop through the informatin sent
+      #calls the function in api_helper to loop through the information sent
       error=api_helper.check_endpoint_info(request.json, ['name', 'bio','dob', 'dod','image_url']) 
 
       if(error !=None):
